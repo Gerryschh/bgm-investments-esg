@@ -61,7 +61,7 @@ Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, ar
   cd ../bgm-investments-esg-frontend
   npm i
   npm run dev
-  # FE base: http://localhost:5173
+  # FE base: http://localhost:5173/bgm-investments-esg-frontend/
 ```
 
 ## 🔐 Credenziali demo
