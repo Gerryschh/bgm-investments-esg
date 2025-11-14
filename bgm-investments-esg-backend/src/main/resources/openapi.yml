@@ -1,0 +1,968 @@
+swagger: '2.0'
+info:
+  title: BGM Investments ESG - API
+  version: 1.0.4
+  description: 'API per: autenticazione utenti (login, utente in sessione, logout);
+    consultazione e gestione degli asset (ricerca, dettaglio, inserimento, modifica,
+    disattivazione); gestione dei portafogli personali (creazione, elenco); gestione
+    delle posizioni dei portafogli (lettura, inserimento, rimozione); simulazioni
+    di scenario d’investimento su un portafoglio. L’accesso alle rotte protette avviene
+    inviando nell’header **JSESSIONID** il token di sessione ricevuto dalla login.
+
+    '
+host: localhost:8080
+basePath: /bgm-investments-esg-backend/v1
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  JSessionId:
+    type: apiKey
+    name: JSESSIONID
+    in: header
+    description: 'Identificativo di sessione applicativa. Deve essere inviato in tutte
+      le richieste protette dopo l’autenticazione con /auth/login.
+
+      '
+tags:
+- name: Autenticazione
+  description: Operazioni di accesso e gestione della sessione applicativa.
+- name: Assets
+  description: Consultazione dell’universo titoli e gestione del loro ciclo di vita
+    amministrativo.
+- name: Admin
+  description: Operazioni di creazione, aggiornamento e disattivazione degli asset
+    (permessi ADMIN).
+- name: Portfolios
+  description: Gestione dei portafogli dell’utente, posizioni e simulazioni di scenario.
+paths:
+  /auth/login:
+    post:
+      tags:
+      - Autenticazione
+      summary: Autentica un utente (USER o ADMIN) e avvia una sessione
+      description: 'Verifica le credenziali fornite e restituisce i dati essenziali
+        dell’utente autenticato insieme al `sessionId` da usare come valore dell’header
+        **JSESSIONID** nelle chiamate successive.
+
+        '
+      operationId: login
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/LoginBodyModel'
+      responses:
+        '200':
+          description: Autenticazione riuscita; sessione creata.
+          schema:
+            $ref: '#/definitions/LoginResponseModel'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '429':
+          $ref: '#/responses/TooManyRequests'
+        '500':
+          $ref: '#/responses/InternalError'
+  /auth/me:
+    get:
+      tags:
+      - Autenticazione
+      summary: Restituisce l’utente associato al JSESSIONID corrente
+      description: 'Fornisce l’identità e il ruolo dell’utente legato al token di
+        sessione inviato, utile per mostrare informazioni di profilo e controllare
+        i permessi lato client.
+
+        '
+      operationId: getCurrentUser
+      security:
+      - JSessionId: []
+      responses:
+        '200':
+          description: Dati utente in sessione.
+          schema:
+            $ref: '#/definitions/CurrentUserResponseModel'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '500':
+          $ref: '#/responses/InternalError'
+  /auth/logout:
+    post:
+      tags:
+      - Autenticazione
+      summary: Chiude la sessione associata al JSESSIONID
+      description: 'Invalida il token di sessione. Dopo il logout, le rotte protette
+        torneranno a rispondere 401.
+
+        '
+      operationId: logout
+      security:
+      - JSessionId: []
+      responses:
+        '204':
+          description: Sessione chiusa con successo.
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '500':
+          $ref: '#/responses/InternalError'
+  /assets:
+    get:
+      tags:
+      - Assets
+      summary: Elenco degli asset con conteggio totale
+      description: 'Recupera l’elenco dei titoli presenti a sistema; opzionalmente
+        filtra per stato di attività o settore. La risposta include anche il numero
+        totale di asset coerenti con i filtri.
+
+        '
+      operationId: getAssets
+      security:
+      - JSessionId: []
+      parameters:
+      - in: query
+        name: activeOnly
+        type: boolean
+        default: true
+        description: Se true, restituisce solo asset attivi.
+      - in: query
+        name: settore
+        type: string
+        description: Filtra per settore merceologico (es. Energy, Bond, Utilities).
+      responses:
+        '200':
+          description: Lista asset e totale corrente.
+          schema:
+            $ref: '#/definitions/AssetListResponseModel'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '500':
+          $ref: '#/responses/InternalError'
+  /assets/{assetId}:
+    get:
+      tags:
+      - Assets
+      summary: Dettaglio di un singolo asset
+      description: 'Restituisce tutte le informazioni pubbliche di un asset identificato
+        dal suo ID.
+
+        '
+      operationId: getAssetById
+      security:
+      - JSessionId: []
+      parameters:
+      - in: path
+        name: assetId
+        type: integer
+        format: int64
+        required: true
+        description: Identificativo tecnico dell’asset.
+      responses:
+        '200':
+          description: Dati completi dell’asset richiesto.
+          schema:
+            $ref: '#/definitions/AssetResponseModel'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+        '500':
+          $ref: '#/responses/InternalError'
+  /admin/assets:
+    post:
+      tags:
+      - Admin
+      summary: Crea un nuovo asset
+      description: 'Inserisce un titolo nel catalogo. I campi consentono di definire
+        metadati, quotazioni e indicatori (prezzo, ESG, parametri di rendimento/volatilità),
+        oltre allo stato di attività.
+
+        '
+      operationId: createAsset
+      security:
+      - JSessionId: []
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateAssetBodyModel'
+      responses:
+        '201':
+          description: Asset creato con successo.
+          schema:
+            $ref: '#/definitions/AssetResponseModel'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/Unprocessable'
+        '500':
+          $ref: '#/responses/InternalError'
+  /admin/assets/{assetId}:
+    put:
+      tags:
+      - Admin
+      summary: Aggiorna i dati di un asset esistente
+      description: 'Modifica selettivamente i campi dell’asset: metadati, quotazioni
+        e indicatori.
+
+        '
+      operationId: updateAsset
+      security:
+      - JSessionId: []
+      parameters:
+      - in: path
+        name: assetId
+        type: integer
+        format: int64
+        required: true
+        description: Identificativo tecnico dell’asset da aggiornare.
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateAssetBodyModel'
+      responses:
+        '200':
+          description: Asset aggiornato.
+          schema:
+            $ref: '#/definitions/AssetResponseModel'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/Unprocessable'
+        '500':
+          $ref: '#/responses/InternalError'
+    delete:
+      tags:
+      - Admin
+      summary: Disattiva un asset (soft delete)
+      description: 'Segna un asset come non attivo impostando il campo `active=false`.
+        L’asset resta in archivio ma viene escluso dalle ricerche operative.
+
+        '
+      operationId: deactivateAsset
+      security:
+      - JSessionId: []
+      parameters:
+      - in: path
+        name: assetId
+        type: integer
+        format: int64
+        required: true
+        description: Identificativo tecnico dell’asset da disattivare.
+      responses:
+        '204':
+          description: Asset disattivato.
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+        '500':
+          $ref: '#/responses/InternalError'
+  /portfolios:
+    get:
+      tags:
+      - Portfolios
+      summary: Elenco dei portafogli dell’utente autenticato
+      description: 'Restituisce i portafogli creati dall’utente associato al JSESSIONID.
+        Utile per la dashboard personale e la selezione del portafoglio di lavoro.
+
+        '
+      operationId: getMyPortfolios
+      security:
+      - JSessionId: []
+      responses:
+        '200':
+          description: Lista dei portafogli personali e totale.
+          schema:
+            $ref: '#/definitions/PortfolioListResponseModel'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '500':
+          $ref: '#/responses/InternalError'
+    post:
+      tags:
+      - Portfolios
+      summary: Crea un nuovo portafoglio
+      description: 'Registra un portafoglio a nome dell’utente in sessione specificandone
+        il nome descrittivo.
+
+        '
+      operationId: createPortfolio
+      security:
+      - JSessionId: []
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreatePortfolioBodyModel'
+      responses:
+        '201':
+          description: Portafoglio creato.
+          schema:
+            $ref: '#/definitions/PortfolioResponseModel'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/Unprocessable'
+        '500':
+          $ref: '#/responses/InternalError'
+  /portfolios/{portfolioId}/positions:
+    get:
+      tags:
+      - Portfolios
+      summary: Elenco delle posizioni di un portafoglio
+      description: 'Fornisce le righe posizione (asset e quantità) del portafoglio
+        indicato. Opzionalmente, ogni posizione include un riepilogo dell’asset collegato.
+
+        '
+      operationId: getPortfolioPositions
+      security:
+      - JSessionId: []
+      parameters:
+      - in: path
+        name: portfolioId
+        type: integer
+        format: int64
+        required: true
+        description: Identificativo del portafoglio proprietario delle posizioni.
+      responses:
+        '200':
+          description: Posizioni del portafoglio e totale.
+          schema:
+            $ref: '#/definitions/PositionListResponseModel'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+        '500':
+          $ref: '#/responses/InternalError'
+    post:
+      tags:
+      - Portfolios
+      summary: Inserisce una nuova posizione nel portafoglio
+      description: 'Aggiunge un asset al portafoglio come posizione, indicando la
+        quantità acquistata/detenuta.
+
+        '
+      operationId: addPosition
+      security:
+      - JSessionId: []
+      parameters:
+      - in: path
+        name: portfolioId
+        type: integer
+        format: int64
+        required: true
+        description: Identificativo del portafoglio su cui inserire la posizione.
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreatePositionBodyModel'
+      responses:
+        '201':
+          description: Posizione registrata.
+          schema:
+            $ref: '#/definitions/PositionResponseModel'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/Conflict'
+        '422':
+          $ref: '#/responses/Unprocessable'
+        '500':
+          $ref: '#/responses/InternalError'
+  /portfolios/{portfolioId}/positions/{positionId}:
+    delete:
+      tags:
+      - Portfolios
+      summary: Rimuove una posizione dal portafoglio
+      description: 'Cancella la riga posizione indicata, se appartenente al portafoglio
+        e all’utente in sessione.
+
+        '
+      operationId: removePosition
+      security:
+      - JSessionId: []
+      parameters:
+      - in: path
+        name: portfolioId
+        type: integer
+        format: int64
+        required: true
+        description: Identificativo del portafoglio.
+      - in: path
+        name: positionId
+        type: integer
+        format: int64
+        required: true
+        description: Identificativo della posizione da rimuovere.
+      responses:
+        '204':
+          description: Posizione rimossa.
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+        '500':
+          $ref: '#/responses/InternalError'
+  /portfolios/{portfolioId}/simulation:
+    post:
+      tags:
+      - Portfolios
+      summary: Esegue una simulazione di scenario sul portafoglio
+      description: 'Lancia una simulazione di tipo what-if sul portafoglio indicato
+        per un orizzonte espresso in mesi. La risposta riporta gli indicatori sintetici
+        (ESG medio/atteso, rendimento atteso, volatilità) e tre scenari (pessimistico,
+        neutro, ottimistico) come moltiplicatori o rendimenti normalizzati.
+
+        '
+      operationId: runSimulation
+      security:
+      - JSessionId: []
+      parameters:
+      - in: path
+        name: portfolioId
+        type: integer
+        format: int64
+        required: true
+        description: Identificativo del portafoglio da simulare.
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/RunSimulationBodyModel'
+      responses:
+        '200':
+          description: Esito della simulazione.
+          schema:
+            $ref: '#/definitions/SimulationResponseModel'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '403':
+          $ref: '#/responses/Forbidden'
+        '404':
+          $ref: '#/responses/NotFound'
+        '422':
+          $ref: '#/responses/Unprocessable'
+        '500':
+          $ref: '#/responses/InternalError'
+responses:
+  BadRequest:
+    description: Richiesta non valida (body mancante o campi non corretti).
+    schema:
+      $ref: '#/definitions/ErrorResponseModel'
+  Unauthorized:
+    description: Autenticazione richiesta o token di sessione non valido/scaduto.
+    schema:
+      $ref: '#/definitions/ErrorResponseModel'
+  Forbidden:
+    description: Utente autenticato senza i permessi necessari.
+    schema:
+      $ref: '#/definitions/ErrorResponseModel'
+  NotFound:
+    description: Risorsa inesistente o non appartenente all’utente.
+    schema:
+      $ref: '#/definitions/ErrorResponseModel'
+  Conflict:
+    description: Conflitto con vincoli applicativi (es. ticker esistente, duplicazioni).
+    schema:
+      $ref: '#/definitions/ErrorResponseModel'
+  Unprocessable:
+    description: Dati semanticamente scorretti secondo le regole di business.
+    schema:
+      $ref: '#/definitions/ErrorResponseModel'
+  TooManyRequests:
+    description: Troppi tentativi ravvicinati (rate limiting).
+    schema:
+      $ref: '#/definitions/ErrorResponseModel'
+  InternalError:
+    description: Errore interno imprevisto.
+    schema:
+      $ref: '#/definitions/ErrorResponseModel'
+definitions:
+  LoginBodyModel:
+    type: object
+    description: Credenziali necessarie per l’autenticazione applicativa.
+    required:
+    - email
+    - password
+    properties:
+      email:
+        type: string
+        format: email
+        description: Indirizzo email registrato.
+      password:
+        type: string
+        format: password
+        description: Password dell’account.
+    example:
+      email: email_esempio
+      password: password_esempio
+  UserSummaryModel:
+    type: object
+    description: Identità minima dell’utente per uso applicativo e controllo permessi.
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Identificativo interno dell’utente.
+      nome:
+        type: string
+        description: Nome e cognome o denominazione visualizzata.
+      email:
+        type: string
+        format: email
+        description: Email primaria dell’utente.
+      ruolo:
+        type: string
+        enum:
+        - USER
+        - ADMIN
+        description: Ruolo di autorizzazione, utile a governare le rotte amministrative.
+    example:
+      id: 1
+      nome: nome_esempio
+      email: email_esempio
+      ruolo: USER
+  LoginResponseModel:
+    type: object
+    description: Esito del login con l’utente autenticato e il token di sessione.
+    required:
+    - user
+    - sessionId
+    properties:
+      user:
+        $ref: '#/definitions/UserSummaryModel'
+      sessionId:
+        type: string
+        description: Token di sessione da inviare nell’header **JSESSIONID**.
+    example:
+      user: {}
+      sessionId: ID_ESEMPIO
+  CurrentUserResponseModel:
+    allOf:
+    - $ref: '#/definitions/UserSummaryModel'
+    description: Rappresentazione dell’utente associato al token di sessione.
+  AssetModel:
+    type: object
+    description: Titolo finanziario/strumento negoziato con metadati e indicatori
+      principali.
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Identificativo tecnico del titolo.
+      ticker:
+        type: string
+        description: Codice univoco del titolo all’interno del sistema.
+      nome:
+        type: string
+        description: Denominazione commerciale del titolo.
+      settore:
+        type: string
+        description: Settore/cluster di appartenenza (es. Energy, Bond).
+      prezzo:
+        type: number
+        format: double
+        description: Prezzo base/ultimo prezzo noto.
+      esg:
+        type: integer
+        description: Punteggio ESG (0–100).
+      rendimentoMensile:
+        type: number
+        format: double
+        description: Rendimento medio mensile stimato/storico (valore decimale).
+      volatilitaMensile:
+        type: number
+        format: double
+        description: Volatilità media mensile (valore decimale).
+      source:
+        type: string
+        description: Provenienza del dato (es. MANUAL, API).
+      updatedAt:
+        type: string
+        format: date-time
+        description: Timestamp ultimo aggiornamento del titolo.
+      active:
+        type: boolean
+        description: Stato di attivazione del titolo (in uso o disattivato).
+    example:
+      id: 1
+      ticker: ticker_esempio
+      nome: nome_esempio
+      settore: settore_esempio
+      prezzo: 1
+      esg: 1
+      rendimentoMensile: 1
+      volatilitaMensile: 1
+      source: source_esempio
+      updatedAt: '2024-01-01T00:00:00Z'
+      active: true
+  AssetResponseModel:
+    allOf:
+    - $ref: '#/definitions/AssetModel'
+    description: Dati di un asset restituiti dalle rotte di consultazione e amministrazione.
+  AssetListResponseModel:
+    type: object
+    description: Risultato dell’elenco asset con lista e numero totale coerente con
+      i filtri richiesti.
+    required:
+    - items
+    - total
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/AssetModel'
+      total:
+        type: integer
+        format: int64
+        description: Numero complessivo di asset inclusi nel risultato.
+    example:
+      items:
+      - {}
+      total: 1
+  CreateAssetBodyModel:
+    type: object
+    description: Dati necessari per l’inserimento di un nuovo asset nel catalogo.
+    required:
+    - ticker
+    - nome
+    - settore
+    - prezzo
+    - esg
+    - active
+    properties:
+      ticker:
+        type: string
+        description: Codice identificativo univoco del titolo.
+      nome:
+        type: string
+        description: Denominazione del titolo.
+      settore:
+        type: string
+        description: Settore/cluster di appartenenza.
+      prezzo:
+        type: number
+        format: double
+        description: Prezzo base o ultimo prezzo.
+      esg:
+        type: integer
+        description: Punteggio ESG (0–100).
+      rendimentoMensile:
+        type: number
+        format: double
+        description: Rendimento medio mensile.
+      volatilitaMensile:
+        type: number
+        format: double
+        description: Volatilità media mensile.
+      source:
+        type: string
+        description: Provenienza del dato (MANUAL/API).
+      active:
+        type: boolean
+        description: Stato iniziale dell’asset.
+    example:
+      ticker: ticker_esempio
+      nome: nome_esempio
+      settore: settore_esempio
+      prezzo: 1
+      esg: 1
+      rendimentoMensile: 1
+      volatilitaMensile: 1
+      source: source_esempio
+      active: true
+  UpdateAssetBodyModel:
+    type: object
+    description: Campi aggiornabili di un asset esistente; i campi omessi non vengono
+      toccati.
+    properties:
+      nome:
+        type: string
+        description: Nuovo nome.
+      settore:
+        type: string
+        description: Nuovo settore.
+      prezzo:
+        type: number
+        format: double
+        description: Nuovo prezzo.
+      esg:
+        type: integer
+        description: Nuovo punteggio ESG (0–100).
+      rendimentoMensile:
+        type: number
+        format: double
+        description: Nuovo rendimento medio mensile.
+      volatilitaMensile:
+        type: number
+        format: double
+        description: Nuova volatilità media mensile.
+      source:
+        type: string
+        description: Nuova provenienza del dato.
+      active:
+        type: boolean
+        description: Nuovo stato di attività.
+    example:
+      nome: nome_esempio
+      settore: settore_esempio
+      prezzo: 1
+      esg: 1
+      rendimentoMensile: 1
+      volatilitaMensile: 1
+      source: source_esempio
+      active: true
+  PortfolioModel:
+    type: object
+    description: Contenitore di investimento di proprietà dell’utente, con metadati
+      essenziali.
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Identificativo del portafoglio.
+      nome:
+        type: string
+        description: Nome assegnato dall’utente (es. “Lungo Termine”).
+      owner:
+        $ref: '#/definitions/UserSummaryModel'
+      createdAt:
+        type: string
+        format: date-time
+        description: Istantanea di creazione del portafoglio.
+    example:
+      id: 1
+      nome: nome_esempio
+      owner: {}
+      createdAt: '2024-01-01T00:00:00Z'
+  PortfolioResponseModel:
+    allOf:
+    - $ref: '#/definitions/PortfolioModel'
+    description: Dati del portafoglio restituiti dalle operazioni di lettura/creazione.
+  PortfolioListResponseModel:
+    type: object
+    description: Risultato dell’elenco dei portafogli dell’utente autenticato.
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/PortfolioModel'
+      total:
+        type: integer
+        format: int64
+        description: Numero di portafogli trovati.
+    example:
+      items:
+      - {}
+      total: 1
+  CreatePortfolioBodyModel:
+    type: object
+    description: Payload minimo per registrare un nuovo portafoglio a proprio nome.
+    required:
+    - nome
+    properties:
+      nome:
+        type: string
+        description: Nome descrittivo scelto dall’utente.
+    example:
+      nome: nome_esempio
+  PositionModel:
+    type: object
+    description: Riga di portafoglio che rappresenta la detenzione di un determinato
+      asset con relativa quantità.
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Identificativo della posizione.
+      portfolio:
+        $ref: '#/definitions/PortfolioModel'
+      asset:
+        $ref: '#/definitions/AssetModel'
+      quantita:
+        type: number
+        format: double
+        description: Quantità detenuta/acquistata dell’asset.
+    example:
+      id: 1
+      portfolio: {}
+      asset: {}
+      quantita: 1
+  PositionResponseModel:
+    allOf:
+    - $ref: '#/definitions/PositionModel'
+    description: Posizione restituita dalle operazioni di lettura e inserimento.
+  PositionListResponseModel:
+    type: object
+    description: Risultato dell’elenco posizioni del portafoglio selezionato.
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/PositionModel'
+      total:
+        type: integer
+        format: int64
+        description: Numero di posizioni trovate.
+    example:
+      items:
+      - {}
+      total: 1
+  CreatePositionBodyModel:
+    type: object
+    description: Dati necessari per aggiungere una nuova posizione a un portafoglio
+      esistente.
+    required:
+    - assetId
+    - quantita
+    properties:
+      assetId:
+        type: integer
+        format: int64
+        description: Identificativo dell’asset da inserire in posizione.
+      quantita:
+        type: number
+        format: double
+        minimum: 0
+        description: Quantità da registrare (deve essere non negativa).
+    example:
+      assetId: 1
+      quantita: 1
+  RunSimulationBodyModel:
+    type: object
+    description: Parametri di input per l’esecuzione di una simulazione sul portafoglio.
+    required:
+    - mesi
+    properties:
+      mesi:
+        type: integer
+        minimum: 1
+        description: Orizzonte temporale della simulazione in mesi.
+      note:
+        type: string
+        description: Annotazioni facoltative per traccia/diagnostica.
+    example:
+      mesi: 1
+      note: note_esempio
+  SimulationResponseModel:
+    type: object
+    description: Output sintetico della simulazione con indicatori aggregati e tre
+      scenari di esito.
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Identificativo della simulazione registrata.
+      portfolio:
+        $ref: '#/definitions/PortfolioModel'
+      mesi:
+        type: integer
+        description: Orizzonte simulato in mesi.
+      esg:
+        type: number
+        format: double
+        description: Punteggio ESG atteso/medio del portafoglio simulato.
+      rendimentoAtteso:
+        type: number
+        format: double
+        description: Rendimento medio atteso sul periodo.
+      volatilita:
+        type: number
+        format: double
+        description: Volatilità attesa sul periodo.
+      scenarioNeutro:
+        type: number
+        format: double
+        description: Esito nello scenario neutro (moltiplicatore o rendimento normalizzato).
+      scenarioOttimistico:
+        type: number
+        format: double
+        description: Esito nello scenario ottimistico.
+      scenarioPessimistico:
+        type: number
+        format: double
+        description: Esito nello scenario pessimistico.
+      createdAt:
+        type: string
+        format: date-time
+        description: Timestamp di generazione dei risultati.
+    example:
+      id: 1
+      portfolio: {}
+      mesi: 1
+      esg: 1
+      rendimentoAtteso: 1
+      volatilita: 1
+      scenarioNeutro: 1
+      scenarioOttimistico: 1
+      scenarioPessimistico: 1
+      createdAt: '2024-01-01T00:00:00Z'
+  ErrorResponseModel:
+    type: object
+    description: Struttura standard di errore applicativo.
+    required:
+    - code
+    - message
+    properties:
+      code:
+        type: string
+        description: Codice sintetico dell’errore.
+      message:
+        type: string
+        description: Descrizione leggibile dell’errore.
+      details:
+        type: array
+        items:
+          type: string
+        description: Elenco di dettagli aggiuntivi (facoltativi).
+    example:
+      code: code_esempio
+      message: message_esempio
+      details:
+      - details_esempio
+security:
+- JSessionId: []

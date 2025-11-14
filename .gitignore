@@ -1,0 +1,61 @@
+# Logs
+logs
+*.log
+bgm-investments-esg-frontendnpm-debug.log*
+bgm-investments-esg-frontendyarn-debug.log*
+bgm-investments-esg-frontendyarn-error.log*
+bgm-investments-esg-frontendpnpm-debug.log*
+bgm-investments-esg-frontendlerna-debug.log*
+
+bgm-investments-esg-frontend/node_modules
+bgm-investments-esg-frontend/dist
+bgm-investments-esg-frontend/dist-ssr
+bgm-investments-esg-frontend/package-lock.json
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+/target
+bgm-investments-esg-backend/target
+
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
