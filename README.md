@@ -1,6 +1,9 @@
 # Banca BGM — ESG Investments (Full-Stack)
 
 Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, architettura REST API-based e frontend React in brand Banca BGM.
+### ⚠️ Attenzione / Disclaimer
+Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
+“Banca BGM” non esiste: è un nome inventato per il project work.
 
 ## 👀 Anteprima
 - Login
