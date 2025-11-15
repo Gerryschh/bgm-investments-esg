@@ -21,6 +21,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 - OpenAPI/Swagger UI integrato per esplorare le API
 - H2 embedded per sviluppo (schema+seed) → roadmap: SQL Server (on-prem)
 - MapStruct per mappare Entity ⇄ Model
+- Testing componenti backend (Service/API)
 
 ## 🧱 Architettura
 ```bash
@@ -37,6 +38,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 - MapStruct (Entity ⇄ Model)
 - springdoc-openapi (Swagger UI)
 - BCrypt (password hash)
+- Mockito • JUnit (testing)
 ### Frontend
 - React 18 • Vite
 - React Router
@@ -73,7 +75,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 - Admin: `admin@bgm.it` / `password` (ROLE: `ADMIN`)
 
 ## 🗺️ Roadmap
-- Sezione autogenerazione portafoglio da capitale e vincoli iniziali (es. ESG > X)
+- Sezione autogenerazione portafoglio da capitale inserito e vincoli iniziali (es. ESG > X)
 - SSO (Keycloak / OAuth2) al posto della sessione locale
 - Provider mercati/ESG esterni (refresh automatico catalogo titoli)
 - DB enterprise (SQL Server)
