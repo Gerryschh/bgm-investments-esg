@@ -13,6 +13,29 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementazione di {@link it.bgm.investments.service.AssetService} che
+ * coordina repository e mapper per la gestione degli asset finanziari
+ * (consultazione, creazione, aggiornamento e disattivazione).
+ *
+ * <p><b>Campi:</b></p>
+ * <ul>
+ *     <li>{@link #repo} — repository JPA per la persistenza e la ricerca degli asset.</li>
+ *     <li>{@link #mapper} — mapper per convertire tra entità {@code Asset} e modelli API.</li>
+ * </ul>
+ *
+ * <p><b>Metodi:</b></p>
+ * <ul>
+ *     <li>{@link #list(Boolean, String)} — restituisce la lista degli asset,
+ *         eventualmente filtrata per attivi e settore.</li>
+ *     <li>{@link #get(Long)} — recupera i dettagli di uno specifico asset tramite ID.</li>
+ *     <li>{@link #create(it.bgm.investments.api.model.CreateAssetBodyModel)} —
+ *         crea un nuovo asset a partire dal body fornito.</li>
+ *     <li>{@link #update(Long, it.bgm.investments.api.model.UpdateAssetBodyModel)} —
+ *         aggiorna i dati dell’asset indicato.</li>
+ *     <li>{@link #deactivate(Long)} — imposta un asset come non attivo.</li>
+ * </ul>
+ */
 @Service
 @RequiredArgsConstructor
 public class AssetServiceImpl implements AssetService {

@@ -15,6 +15,30 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Filtro di sicurezza che legge un token di sessione (header {@code JSESSIONID}/{@code Jsessionid}),
+ * lo valida tramite {@link SessionStore} e, se valido, popola il contesto di sicurezza di Spring
+ * con un {@link UserPrincipal} costruito a partire dall'utente memorizzato nel database.
+ *
+ * <p><b>Campi:</b></p>
+ * <ul>
+ *     <li>{@link #sessions} — store delle sessioni utilizzato per validare il token e ricavare l'ID utente.</li>
+ *     <li>{@link #userRepository} — repository impiegato per caricare l'entità {@link it.bgm.investments.domain.User}
+ *         e determinare i ruoli associati.</li>
+ * </ul>
+ *
+ * <p><b>Metodi:</b></p>
+ * <ul>
+ *     <li>{@link #JSessionFilter(SessionStore, UserRepository)} — costruttore che inizializza il filtro
+ *         con lo store di sessione e il repository utenti da utilizzare durante la validazione.</li>
+ *
+ *     <li>{@link #doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)} — metodo chiamato
+ *         per ogni richiesta; estrae il token di sessione dagli header, verifica l'autenticazione corrente,
+ *         tenta di risolvere l'utente associato e, in caso di successo, imposta l'autenticazione nel
+ *         {@link org.springframework.security.core.context.SecurityContextHolder} prima di proseguire
+ *         con la catena di filtri.</li>
+ * </ul>
+ */
 public class JSessionFilter extends OncePerRequestFilter {
 
     private final SessionStore sessions;

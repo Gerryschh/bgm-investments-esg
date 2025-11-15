@@ -9,6 +9,26 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+/**
+ * Mapper MapStruct dedicato alla conversione tra l'entità {@link it.bgm.investments.domain.Asset}
+ * e i corrispondenti modelli API, con supporto a conversioni numeriche e temporali tramite
+ * componenti ausiliari come {@link Conversions} e {@link DateMapper}.
+ *
+ * <p><b>Campi:</b></p>
+ * <ul>
+ *   <li>Nessun campo dichiarato: l'interfaccia definisce solo metodi di mapping.</li>
+ * </ul>
+ *
+ * <p><b>Metodi:</b></p>
+ * <ul>
+ *   <li>{@link #toModel(it.bgm.investments.domain.Asset)} – converte un'entità {@code Asset} in {@code AssetModel}.</li>
+ *   <li>{@link #fromModel(it.bgm.investments.api.model.AssetModel)} – converte un {@code AssetModel} in entità {@code Asset} (metodo inverso).</li>
+ *   <li>{@link #toResponse(it.bgm.investments.domain.Asset)} – converte un'entità {@code Asset} in un {@code AssetResponseModel} utilizzando una mappatura personalizzata.</li>
+ * </ul>
+ *
+ * <p>Il mapper applica conversioni specifiche (come BigDecimal→Double e Instant→OffsetDateTime)
+ * tramite annotazioni {@code @Mappings} e qualificatori {@code @Named} presenti nelle classi di supporto.</p>
+ */
 @Mapper(config = CentralMapperConfig.class, uses = {Conversions.class, DateMapper.class})
 public interface AssetMapper {
     @Mappings({

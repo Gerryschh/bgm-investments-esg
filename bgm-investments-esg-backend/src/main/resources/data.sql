@@ -1,4 +1,4 @@
--- Utente demo (password = "password")
+-- Utente/admin demo (password = "password")
 INSERT INTO utenti (nome, email, password_hash, ruolo)
 VALUES ('Mario Rossi', 'mario.rossi@bgm.it', '$2y$16$Qc5THrRdpP5RLa4g0g5LnuPThaDBGK2cmCwVZTBwZQ/wmUCZoNpy6', 'USER'),
        ('Admin BGM', 'admin@bgm.it', '$2y$16$Qc5THrRdpP5RLa4g0g5LnuPThaDBGK2cmCwVZTBwZQ/wmUCZoNpy6', 'ADMIN');

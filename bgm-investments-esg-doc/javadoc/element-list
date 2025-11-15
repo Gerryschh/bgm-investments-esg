@@ -1,0 +1,9 @@
+it.bgm.investments
+it.bgm.investments.config
+it.bgm.investments.domain
+it.bgm.investments.mapper
+it.bgm.investments.repo
+it.bgm.investments.security
+it.bgm.investments.service
+it.bgm.investments.service.impl
+it.bgm.investments.web

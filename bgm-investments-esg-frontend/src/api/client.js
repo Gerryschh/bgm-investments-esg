@@ -10,7 +10,6 @@
 const BASE = '/api';
 const LS_KEY = 'JSESSIONID';
 
-// --- migrazione chiave legacy (camel-case errata) ---
 (function migrateLegacyKey() {
     try {
         const legacy = localStorage.getItem('JSessionid');
@@ -104,6 +103,7 @@ function normalizeUser(u) {
     };
 }
 
+// === Autenticazione ===
 export const Auth = {
     async login(email, password) {
         const resp = await api('/auth/login', {

@@ -9,11 +9,11 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: none                 # usiamo gli SQL, non Hibernate
+      ddl-auto: none
     defer-datasource-initialization: true
   sql:
     init:
-      mode: always                   # esegui schema.sql e data.sql
+      mode: always                   # esegue schema.sql e data.sql
   h2:
     console:
       enabled: true
