@@ -3,10 +3,8 @@ import {NavLink} from 'react-router-dom';
 export default function Nav({user, onLogout}) {
     const isAdmin = user && user.role === 'ADMIN';
 
-    // provo a ricostruire un nome decente
     const fullName = user?.userName || 'Utente';
 
-    // iniziali per il cerchietto
     const initials = fullName
         .split(' ')
         .filter(Boolean)

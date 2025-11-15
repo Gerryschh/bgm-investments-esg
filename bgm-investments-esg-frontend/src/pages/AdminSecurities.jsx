@@ -56,7 +56,7 @@ function DeletePopup({show, onCancel, onConfirm}) {
 }
 
 /* ----------------------------------------------
-   FIELD INPUT  (UNICA MODIFICA FATTA)
+   FIELD INPUT
 ---------------------------------------------- */
 function Field({ id, label, hint, info, ...props }) {
     return (
@@ -411,7 +411,7 @@ export default function AdminSecurities() {
                     </div>
                 )}
 
-                {/* FORM NUOVO */}
+                {/* FORM TITOLO*/}
                 <div className="bgm-card" style={{display: 'grid', gap: 10}}>
                     <h4 style={{margin: 0}}>Nuovo titolo</h4>
 

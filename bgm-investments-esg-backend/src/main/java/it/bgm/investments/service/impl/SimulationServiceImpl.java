@@ -24,6 +24,33 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Implementazione di {@link it.bgm.investments.service.SimulationService} che
+ * esegue simulazioni sui portafogli di investimento. Combina le posizioni del
+ * portafoglio con i parametri di input per calcolare scenari previsionali e
+ * produce un {@link it.bgm.investments.api.model.SimulationResponseModel}
+ * pronto per l'esposizione via API.
+ *
+ * <p><b>Campi:</b></p>
+ * <ul>
+ *     <li>{@link #portfolioRepo} — repository per il recupero dei portafogli da simulare.</li>
+ *     <li>{@link #positions} — repository delle posizioni associate ai portafogli.</li>
+ *     <li>{@link #sims} — repository per la persistenza delle simulazioni eseguite.</li>
+ *     <li>{@link #mapper} — mapper per la conversione tra entità {@link it.bgm.investments.domain.Simulation}
+ *         e modello {@link it.bgm.investments.api.model.SimulationResponseModel}.</li>
+ *     <li>{@link #auth} — componente utilizzato per ricavare l’ID utente a partire dal token di sessione.</li>
+ * </ul>
+ *
+ * <p><b>Metodi:</b></p>
+ * <ul>
+ *     <li>{@link #run(Long, it.bgm.investments.api.model.RunSimulationBodyModel, String)} —
+ *         esegue una simulazione sul portafoglio indicato, verificando che appartenga
+ *         all’utente associato al {@code jSessionId}, calcola i risultati statistici
+ *         e li persiste, restituendo il modello di risposta.</li>
+ *     <li>{@link #runMonteCarlo(BigDecimal, BigDecimal, int, int)} —
+ *         esegue una simulazione Monte Carlo sui rendimenti del portafoglio.</li>
+ * </ul>
+ */
 @Service
 @RequiredArgsConstructor
 public class SimulationServiceImpl implements SimulationService {

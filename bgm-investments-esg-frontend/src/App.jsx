@@ -247,7 +247,7 @@ export default function App() {
 
     return (
         <BrowserRouter basename="/bgm-investments-esg-frontend/">
-            {/* Layout a colonna per avere footer in fondo */}
+            {/* Layout a colonna per FOOTER */}
             <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
                 {user && user.role === 'ADMIN' ? <AdminOnlyShell/> : <NormalShell/>}
                 <Footer/>

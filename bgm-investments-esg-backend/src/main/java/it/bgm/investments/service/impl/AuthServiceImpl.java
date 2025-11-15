@@ -16,6 +16,30 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementazione di {@link it.bgm.investments.service.AuthService} che
+ * gestisce il flusso di autenticazione basato su credenziali, la creazione
+ * delle sessioni applicative e la risoluzione dell’utente corrente.
+ *
+ * <p><b>Campi:</b></p>
+ * <ul>
+ *     <li>{@link #userRepo} — repository per il recupero dell’utente a partire dalle credenziali.</li>
+ *     <li>{@link #sessions} — store delle sessioni usato per creare, validare e invalidare i token.</li>
+ *     <li>{@link #userMapper} — mapper per convertire l’entità utente nei modelli di risposta.</li>
+ *     <li>{@link #passwordEncoder} — encoder delle password utilizzato per la verifica delle credenziali.</li>
+ * </ul>
+ *
+ * <p><b>Metodi:</b></p>
+ * <ul>
+ *     <li>{@link #login(it.bgm.investments.api.model.LoginBodyModel)} —
+ *         autentica l’utente, verifica la password e crea una nuova sessione tramite {@link #sessions}.</li>
+ *     <li>{@link #currentUser(String)} — restituisce le informazioni dell’utente
+ *         associato al {@code jSessionId} indicato, utilizzando {@link #sessions}
+ *         e {@link #userMapper}.</li>
+ *     <li>{@link #logout(String)} — invalida la sessione corrispondente al token
+ *         passato, delegando a {@link #sessions}.</li>
+ * </ul>
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {

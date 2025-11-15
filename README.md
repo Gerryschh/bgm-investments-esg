@@ -5,7 +5,7 @@ Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, ar
 ## 👀 Anteprima
 - Login
 - Home
-- Dashboard Investimenti
+- Dashboard Investimenti (Creazione portafoglio / Inserimento Assets)
 - Simulazione scenari (neutro / ottimistico / pessimistico)
 - Admin – Catalogo titoli
 
@@ -23,6 +23,7 @@ Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, ar
 ```bash
   bgm-investments-esg/
   ├─ bgm-investments-esg-backend/   # Spring Boot 3, REST API
+  ├─ bgm-investments-esg-doc/   # javadoc, ER Schema, UML Schema
   └─ bgm-investments-esg-frontend/  # React (Vite)
 ```
 
@@ -61,7 +62,7 @@ Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, ar
   cd ../bgm-investments-esg-frontend
   npm i
   npm run dev
-  # FE base: http://localhost:5173
+  # FE base: http://localhost:5173/bgm-investments-esg-frontend/
 ```
 
 ## 🔐 Credenziali demo

@@ -20,6 +20,30 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementazione di {@link it.bgm.investments.service.PositionService} che
+ * gestisce le posizioni all’interno di un portafoglio, verificando che le
+ * operazioni richieste siano compatibili con l’utente autenticato.
+ *
+ * <p><b>Campi:</b></p>
+ * <ul>
+ *     <li>{@link #portfolioRepo} — repository per il recupero dei portafogli.</li>
+ *     <li>{@link #positionRepo} — repository per la gestione delle posizioni.</li>
+ *     <li>{@link #assetRepo} — repository per l’accesso agli asset.</li>
+ *     <li>{@link #mapper} — mapper tra entità {@code PortfolioPosition} e modelli API.</li>
+ *     <li>{@link #auth} — componente per ottenere l’ID utente a partire dal token di sessione.</li>
+ * </ul>
+ *
+ * <p><b>Metodi:</b></p>
+ * <ul>
+ *     <li>{@link #list(Long, String)} — restituisce l’elenco delle posizioni
+ *         di un portafoglio appartenente all’utente della sessione.</li>
+ *     <li>{@link #add(Long, it.bgm.investments.api.model.CreatePositionBodyModel, String)} —
+ *         aggiunge una nuova posizione al portafoglio, controllando che appartenga all’utente.</li>
+ *     <li>{@link #remove(Long, Long, String)} — rimuove una posizione dal portafoglio,
+ *         dopo aver verificato la titolarità dell’utente.</li>
+ * </ul>
+ */
 @Service
 @RequiredArgsConstructor
 public class PositionServiceImpl implements PositionService {
