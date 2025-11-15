@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: BGM Investments ESG - API
-  version: 1.0.4
+  version: 1.0.0
   description: 'API per: autenticazione utenti (login, utente in sessione, logout);
     consultazione e gestione degli asset (ricerca, dettaglio, inserimento, modifica,
     disattivazione); gestione dei portafogli personali (creazione, elenco); gestione
