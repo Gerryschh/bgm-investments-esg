@@ -1,6 +1,9 @@
 # Banca BGM — ESG Investments (Full-Stack)
 
 Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, architettura REST API-based e frontend React in brand Banca BGM.
+### ⚠️ Attenzione / Disclaimer
+Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
+“Banca BGM” non esiste: è un nome inventato per il project work.
 
 ## 👀 Anteprima
 - Login
@@ -18,12 +21,13 @@ Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, ar
 - OpenAPI/Swagger UI integrato per esplorare le API
 - H2 embedded per sviluppo (schema+seed) → roadmap: SQL Server (on-prem)
 - MapStruct per mappare Entity ⇄ Model
+- Testing componenti backend (Service/API)
 
 ## 🧱 Architettura
 ```bash
   bgm-investments-esg/
   ├─ bgm-investments-esg-backend/   # Spring Boot 3, REST API
-  ├─ bgm-investments-esg-doc/   # javadoc, ER Schema, UML Schema
+  ├─ bgm-investments-esg-doc/   # javadoc, er-schema, uml-schema
   └─ bgm-investments-esg-frontend/  # React (Vite)
 ```
 
@@ -34,6 +38,7 @@ Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, ar
 - MapStruct (Entity ⇄ Model)
 - springdoc-openapi (Swagger UI)
 - BCrypt (password hash)
+- Mockito • JUnit (testing)
 ### Frontend
 - React 18 • Vite
 - React Router
@@ -70,7 +75,7 @@ Prototipo didattico per simulazione e gestione portafogli con indicatori ESG, ar
 - Admin: `admin@bgm.it` / `password` (ROLE: `ADMIN`)
 
 ## 🗺️ Roadmap
-- Sezione autogenerazione portafoglio da capitale e vincoli iniziali (es. ESG > X)
+- Sezione autogenerazione portafoglio da capitale inserito e vincoli iniziali (es. ESG > X)
 - SSO (Keycloak / OAuth2) al posto della sessione locale
 - Provider mercati/ESG esterni (refresh automatico catalogo titoli)
 - DB enterprise (SQL Server)
