@@ -6,11 +6,21 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 “Banca BGM” non esiste: è un nome inventato per il project work.
 
 ## 👀 Anteprima
-- Login
-- Home
-- Dashboard Investimenti (Creazione portafoglio / Inserimento Assets)
-- Simulazione scenari (neutro / ottimistico / pessimistico)
-- Admin – Catalogo titoli
+### Login/Logout
+![Alt text](bgm-investments-esg-doc/images/Login.PNG)
+![Alt text](bgm-investments-esg-doc/images/Logout.PNG)
+### Home
+![Alt text](bgm-investments-esg-doc/images/Home.PNG)
+### Dashboard Investimenti (Creazione portafoglio / Dettaglio portafoglio / Inserimento Assets)
+![Alt text](bgm-investments-esg-doc/images/Dashboard_Investimenti_1.PNG)
+![Alt text](bgm-investments-esg-doc/images/Dashboard_Investimenti_2.PNG)
+![Alt text](bgm-investments-esg-doc/images/Dettaglio_Portafoglio_1.PNG)
+![Alt text](bgm-investments-esg-doc/images/Dettaglio_Portafoglio_2.PNG)
+### Simulazione scenari (ottimistico / neutro / pessimistico)
+![Alt text](bgm-investments-esg-doc/images/Simulazione.PNG)
+### Admin – Catalogo titoli
+![Alt text](bgm-investments-esg-doc/images/Area_Admin_Catalogo_Titoli_1.PNG)
+![Alt text](bgm-investments-esg-doc/images/Area_Admin_Catalogo_Titoli_2.PNG)
 
 ## ✨ Funzionalità chiave
 - Autenticazione “light” con sessione HTTP (cookie JSESSIONID), login/logout e “utente corrente”
@@ -27,7 +37,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 ```bash
   bgm-investments-esg/
   ├─ bgm-investments-esg-backend/   # Spring Boot 3, REST API
-  ├─ bgm-investments-esg-doc/   # javadoc, er-schema, uml-schema
+  ├─ bgm-investments-esg-doc/   # javadoc, er-schema, uml-schema, images, postman-collection
   └─ bgm-investments-esg-frontend/  # React (Vite)
 ```
 
@@ -56,7 +66,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 ### Backend
 ```bash
   cd bgm-investments-esg/bgm-investments-esg-backend
-  mvn spring-boot:run
+  mvn clean install spring-boot:run
   # API base: http://localhost:8080/bgm-investments-esg-backend/
   # Swagger UI: http://localhost:8080/swagger-ui/index.html
   # H2 console: http://localhost:8080/h2-console
@@ -64,7 +74,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 ```
 ### Frontend
 ```bash
-  cd ../bgm-investments-esg-frontend
+  cd ./bgm-investments-esg-frontend
   npm i
   npm run dev
   # FE base: http://localhost:5173/bgm-investments-esg-frontend/

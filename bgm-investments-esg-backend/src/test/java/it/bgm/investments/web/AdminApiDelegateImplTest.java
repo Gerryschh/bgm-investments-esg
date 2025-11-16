@@ -4,6 +4,7 @@ import it.bgm.investments.api.model.AssetResponseModel;
 import it.bgm.investments.api.model.CreateAssetBodyModel;
 import it.bgm.investments.api.model.UpdateAssetBodyModel;
 import it.bgm.investments.service.AssetService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,9 @@ import static org.mockito.Mockito.*;
 class AdminApiDelegateImplTest {
 
     @Mock
+    private HttpServletRequest request;
+
+    @Mock
     private AssetService assetService;
 
     @InjectMocks
@@ -26,37 +30,40 @@ class AdminApiDelegateImplTest {
 
     @Test
     void createAsset_returns201AndBody() {
+        when(request.getHeader("JSESSIONID")).thenReturn("TOKEN");
         CreateAssetBodyModel body = new CreateAssetBodyModel();
         AssetResponseModel response = new AssetResponseModel();
 
-        when(assetService.create(body)).thenReturn(response);
+        when(assetService.create(body, "TOKEN")).thenReturn(response);
 
         ResponseEntity<AssetResponseModel> res = delegate.createAsset(body);
 
         assertThat(res.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(res.getBody()).isSameAs(response);
-        verify(assetService).create(body);
+        verify(assetService).create(body, "TOKEN");
     }
 
     @Test
     void updateAsset_returns200AndBody() {
+        when(request.getHeader("JSESSIONID")).thenReturn("TOKEN");
         UpdateAssetBodyModel body = new UpdateAssetBodyModel();
         AssetResponseModel response = new AssetResponseModel();
 
-        when(assetService.update(1L, body)).thenReturn(response);
+        when(assetService.update(1L, body, "TOKEN")).thenReturn(response);
 
         ResponseEntity<AssetResponseModel> res = delegate.updateAsset(body, 1L);
 
         assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(res.getBody()).isSameAs(response);
-        verify(assetService).update(1L, body);
+        verify(assetService).update(1L, body, "TOKEN");
     }
 
     @Test
     void deactivateAsset_returns204() {
+        when(request.getHeader("JSESSIONID")).thenReturn("TOKEN");
         ResponseEntity<Void> res = delegate.deactivateAsset(1L);
 
         assertThat(res.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-        verify(assetService).deactivate(1L);
+        verify(assetService).deactivate(1L, "TOKEN");
     }
 }

@@ -1,0 +1,4484 @@
+{
+	"info": {
+		"_postman_id": "bb9811b2-d493-44f1-bad5-050b9939a551",
+		"name": "BGM Investments ESG - API",
+		"description": "API per: autenticazione utenti (login, utente in sessione, logout); consultazione e gestione degli asset (ricerca, dettaglio, inserimento, modifica, disattivazione); gestione dei portafogli personali (creazione, elenco); gestione delle posizioni dei portafogli (lettura, inserimento, rimozione); simulazioni di scenario d’investimento su un portafoglio. L’accesso alle rotte protette avviene inviando nell’header **JSESSIONID** il token di sessione ricevuto dalla login.\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28393746"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "Autentica un utente (USER o ADMIN) e avvia una sessione",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"email_esempio\",\n  \"password\": \"password_esempio\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								},
+								"description": "Verifica le credenziali fornite e restituisce i dati essenziali dell’utente autenticato insieme al `sessionId` da usare come valore dell’header **JSESSIONID** nelle chiamate successive.\n"
+							},
+							"response": [
+								{
+									"name": "Autenticazione riuscita; sessione creata.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"email_esempio\",\n  \"password\": \"password_esempio\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"user\": {},\n  \"sessionId\": \"ID_ESEMPIO\"\n}"
+								},
+								{
+									"name": "Richiesta non valida (body mancante o campi non corretti).",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"email_esempio\",\n  \"password\": \"password_esempio\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"email_esempio\",\n  \"password\": \"password_esempio\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Troppi tentativi ravvicinati (rate limiting).",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"email_esempio\",\n  \"password\": \"password_esempio\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Too Many Requests",
+									"code": 429,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Errore interno imprevisto.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"email_esempio\",\n  \"password\": \"password_esempio\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "me",
+					"item": [
+						{
+							"name": "Restituisce l’utente associato al JSESSIONID corrente",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "JSESSIONID",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/auth/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"me"
+									]
+								},
+								"description": "Fornisce l’identità e il ruolo dell’utente legato al token di sessione inviato, utile per mostrare informazioni di profilo e controllare i permessi lato client.\n"
+							},
+							"response": [
+								{
+									"name": "Dati utente in sessione.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/auth/me",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"me"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 159,\n  \"nome\": \"string\",\n  \"email\": \"N6wBAi5YY@CbYxXeQnojQlQquZICTMltwfkzmV.aiqu\",\n  \"ruolo\": \"USER\"\n}"
+								},
+								{
+									"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/auth/me",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"me"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Utente autenticato senza i permessi necessari.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/auth/me",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"me"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Errore interno imprevisto.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/auth/me",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"me"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"item": [
+						{
+							"name": "Chiude la sessione associata al JSESSIONID",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "JSESSIONID",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/auth/logout",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								},
+								"description": "Invalida il token di sessione. Dopo il logout, le rotte protette torneranno a rispondere 401.\n"
+							},
+							"response": [
+								{
+									"name": "Sessione chiusa con successo.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/auth/logout",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/auth/logout",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Errore interno imprevisto.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/auth/logout",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "assets",
+			"item": [
+				{
+					"name": "{assetId}",
+					"item": [
+						{
+							"name": "Dettaglio di un singolo asset",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "JSESSIONID",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/assets/:assetId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"assets",
+										":assetId"
+									],
+									"variable": [
+										{
+											"key": "assetId",
+											"value": "8420",
+											"description": "Identificativo tecnico dell’asset."
+										}
+									]
+								},
+								"description": "Restituisce tutte le informazioni pubbliche di un asset identificato dal suo ID.\n"
+							},
+							"response": [
+								{
+									"name": "Dati completi dell’asset richiesto.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/assets/:assetId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"assets",
+												":assetId"
+											],
+											"variable": [
+												{
+													"key": "assetId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"updatedAt\": \"2024-01-01T00:00:00Z\",\n  \"active\": true\n}"
+								},
+								{
+									"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/assets/:assetId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"assets",
+												":assetId"
+											],
+											"variable": [
+												{
+													"key": "assetId"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Risorsa inesistente o non appartenente all’utente.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/assets/:assetId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"assets",
+												":assetId"
+											],
+											"variable": [
+												{
+													"key": "assetId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Errore interno imprevisto.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/assets/:assetId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"assets",
+												":assetId"
+											],
+											"variable": [
+												{
+													"key": "assetId"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Elenco degli asset con conteggio totale",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "JSESSIONID",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{apiKey}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/assets?activeOnly=true&settore=string",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets"
+							],
+							"query": [
+								{
+									"key": "activeOnly",
+									"value": "true",
+									"description": "Se true, restituisce solo asset attivi."
+								},
+								{
+									"key": "settore",
+									"value": "string",
+									"description": "Filtra per settore merceologico (es. Energy, Bond, Utilities)."
+								}
+							]
+						},
+						"description": "Recupera l’elenco dei titoli presenti a sistema; opzionalmente filtra per stato di attività o settore. La risposta include anche il numero totale di asset coerenti con i filtri.\n"
+					},
+					"response": [
+						{
+							"name": "Lista asset e totale corrente.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/assets?activeOnly=true&settore=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"assets"
+									],
+									"query": [
+										{
+											"key": "activeOnly",
+											"value": "true",
+											"description": "Se true, restituisce solo asset attivi."
+										},
+										{
+											"key": "settore",
+											"value": "string",
+											"description": "Filtra per settore merceologico (es. Energy, Bond, Utilities)."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"items\": [\n    {}\n  ],\n  \"total\": 1\n}"
+						},
+						{
+							"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/assets?activeOnly=true&settore=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"assets"
+									],
+									"query": [
+										{
+											"key": "activeOnly",
+											"value": "true",
+											"description": "Se true, restituisce solo asset attivi."
+										},
+										{
+											"key": "settore",
+											"value": "string",
+											"description": "Filtra per settore merceologico (es. Energy, Bond, Utilities)."
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						},
+						{
+							"name": "Errore interno imprevisto.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/assets?activeOnly=true&settore=string",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"assets"
+									],
+									"query": [
+										{
+											"key": "activeOnly",
+											"value": "true",
+											"description": "Se true, restituisce solo asset attivi."
+										},
+										{
+											"key": "settore",
+											"value": "string",
+											"description": "Filtra per settore merceologico (es. Energy, Bond, Utilities)."
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "assets",
+					"item": [
+						{
+							"name": "{assetId}",
+							"item": [
+								{
+									"name": "Aggiorna i dati di un asset esistente",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "JSESSIONID",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets/:assetId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets",
+												":assetId"
+											],
+											"variable": [
+												{
+													"key": "assetId",
+													"value": "8420",
+													"description": "Identificativo tecnico dell’asset da aggiornare."
+												}
+											]
+										},
+										"description": "Modifica selettivamente i campi dell’asset: metadati, quotazioni e indicatori.\n"
+									},
+									"response": [
+										{
+											"name": "Asset aggiornato.",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": 1,\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"updatedAt\": \"2024-01-01T00:00:00Z\",\n  \"active\": true\n}"
+										},
+										{
+											"name": "Richiesta non valida (body mancante o campi non corretti).",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Utente autenticato senza i permessi necessari.",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Risorsa inesistente o non appartenente all’utente.",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Conflitto con vincoli applicativi (es. ticker esistente, duplicazioni).",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Dati semanticamente scorretti secondo le regole di business.",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Errore interno imprevisto.",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										}
+									]
+								},
+								{
+									"name": "Disattiva un asset (soft delete)",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "JSESSIONID",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets/:assetId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets",
+												":assetId"
+											],
+											"variable": [
+												{
+													"key": "assetId",
+													"value": "8420",
+													"description": "Identificativo tecnico dell’asset da disattivare."
+												}
+											]
+										},
+										"description": "Segna un asset come non attivo impostando il campo `active=false`. L’asset resta in archivio ma viene escluso dalle ricerche operative.\n"
+									},
+									"response": [
+										{
+											"name": "Asset disattivato.",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Utente autenticato senza i permessi necessari.",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Risorsa inesistente o non appartenente all’utente.",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Errore interno imprevisto.",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/admin/assets/:assetId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"admin",
+														"assets",
+														":assetId"
+													],
+													"variable": [
+														{
+															"key": "assetId"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Crea un nuovo asset",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "key",
+											"value": "JSESSIONID",
+											"type": "string"
+										},
+										{
+											"key": "value",
+											"value": "{{apiKey}}",
+											"type": "string"
+										},
+										{
+											"key": "in",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/assets",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"assets"
+									]
+								},
+								"description": "Inserisce un titolo nel catalogo. I campi consentono di definire metadati, quotazioni e indicatori (prezzo, ESG, parametri di rendimento/volatilità), oltre allo stato di attività.\n"
+							},
+							"response": [
+								{
+									"name": "Asset creato con successo.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"updatedAt\": \"2024-01-01T00:00:00Z\",\n  \"active\": true\n}"
+								},
+								{
+									"name": "Richiesta non valida (body mancante o campi non corretti).",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Utente autenticato senza i permessi necessari.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Conflitto con vincoli applicativi (es. ticker esistente, duplicazioni).",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Dati semanticamente scorretti secondo le regole di business.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets"
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								},
+								{
+									"name": "Errore interno imprevisto.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "JSESSIONID",
+												"value": "<API Key>",
+												"description": "Added as a part of security scheme: apikey"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"ticker\": \"ticker_esempio\",\n  \"nome\": \"nome_esempio\",\n  \"settore\": \"settore_esempio\",\n  \"prezzo\": 1,\n  \"esg\": 1,\n  \"rendimentoMensile\": 1,\n  \"volatilitaMensile\": 1,\n  \"source\": \"source_esempio\",\n  \"active\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/assets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"assets"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "portfolios",
+			"item": [
+				{
+					"name": "{portfolioId}",
+					"item": [
+						{
+							"name": "positions",
+							"item": [
+								{
+									"name": "{positionId}",
+									"item": [
+										{
+											"name": "Rimuove una posizione dal portafoglio",
+											"request": {
+												"auth": {
+													"type": "apikey",
+													"apikey": [
+														{
+															"key": "key",
+															"value": "JSESSIONID",
+															"type": "string"
+														},
+														{
+															"key": "value",
+															"value": "{{apiKey}}",
+															"type": "string"
+														},
+														{
+															"key": "in",
+															"value": "header",
+															"type": "string"
+														}
+													]
+												},
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions/:positionId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions",
+														":positionId"
+													],
+													"variable": [
+														{
+															"key": "portfolioId",
+															"value": "8420",
+															"description": "Identificativo del portafoglio."
+														},
+														{
+															"key": "positionId",
+															"value": "8420",
+															"description": "Identificativo della posizione da rimuovere."
+														}
+													]
+												},
+												"description": "Cancella la riga posizione indicata, se appartenente al portafoglio e all’utente in sessione.\n"
+											},
+											"response": [
+												{
+													"name": "Posizione rimossa.",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "JSESSIONID",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/portfolios/:portfolioId/positions/:positionId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"portfolios",
+																":portfolioId",
+																"positions",
+																":positionId"
+															],
+															"variable": [
+																{
+																	"key": "portfolioId"
+																},
+																{
+																	"key": "positionId"
+																}
+															]
+														}
+													},
+													"status": "No Content",
+													"code": 204,
+													"_postman_previewlanguage": "text",
+													"header": [],
+													"cookie": [],
+													"body": ""
+												},
+												{
+													"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "JSESSIONID",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/portfolios/:portfolioId/positions/:positionId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"portfolios",
+																":portfolioId",
+																"positions",
+																":positionId"
+															],
+															"variable": [
+																{
+																	"key": "portfolioId"
+																},
+																{
+																	"key": "positionId"
+																}
+															]
+														}
+													},
+													"status": "Unauthorized",
+													"code": 401,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+												},
+												{
+													"name": "Utente autenticato senza i permessi necessari.",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "JSESSIONID",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/portfolios/:portfolioId/positions/:positionId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"portfolios",
+																":portfolioId",
+																"positions",
+																":positionId"
+															],
+															"variable": [
+																{
+																	"key": "portfolioId"
+																},
+																{
+																	"key": "positionId"
+																}
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+												},
+												{
+													"name": "Risorsa inesistente o non appartenente all’utente.",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "JSESSIONID",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/portfolios/:portfolioId/positions/:positionId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"portfolios",
+																":portfolioId",
+																"positions",
+																":positionId"
+															],
+															"variable": [
+																{
+																	"key": "portfolioId"
+																},
+																{
+																	"key": "positionId"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+												},
+												{
+													"name": "Errore interno imprevisto.",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "JSESSIONID",
+																"value": "<API Key>",
+																"description": "Added as a part of security scheme: apikey"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/portfolios/:portfolioId/positions/:positionId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"portfolios",
+																":portfolioId",
+																"positions",
+																":positionId"
+															],
+															"variable": [
+																{
+																	"key": "portfolioId"
+																},
+																{
+																	"key": "positionId"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "Elenco delle posizioni di un portafoglio",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "JSESSIONID",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"portfolios",
+												":portfolioId",
+												"positions"
+											],
+											"variable": [
+												{
+													"key": "portfolioId",
+													"value": "8420",
+													"description": "Identificativo del portafoglio proprietario delle posizioni."
+												}
+											]
+										},
+										"description": "Fornisce le righe posizione (asset e quantità) del portafoglio indicato. Opzionalmente, ogni posizione include un riepilogo dell’asset collegato.\n"
+									},
+									"response": [
+										{
+											"name": "Posizioni del portafoglio e totale.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"items\": [\n    {}\n  ],\n  \"total\": 1\n}"
+										},
+										{
+											"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Utente autenticato senza i permessi necessari.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Risorsa inesistente o non appartenente all’utente.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Errore interno imprevisto.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										}
+									]
+								},
+								{
+									"name": "Inserisce una nuova posizione nel portafoglio",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "JSESSIONID",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"portfolios",
+												":portfolioId",
+												"positions"
+											],
+											"variable": [
+												{
+													"key": "portfolioId",
+													"value": "8420",
+													"description": "Identificativo del portafoglio su cui inserire la posizione."
+												}
+											]
+										},
+										"description": "Aggiunge un asset al portafoglio come posizione, indicando la quantità acquistata/detenuta.\n"
+									},
+									"response": [
+										{
+											"name": "Posizione registrata.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": 1,\n  \"portfolio\": {},\n  \"asset\": {},\n  \"quantita\": 1\n}"
+										},
+										{
+											"name": "Richiesta non valida (body mancante o campi non corretti).",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Utente autenticato senza i permessi necessari.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Risorsa inesistente o non appartenente all’utente.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Conflitto con vincoli applicativi (es. ticker esistente, duplicazioni).",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Dati semanticamente scorretti secondo le regole di business.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Errore interno imprevisto.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"assetId\": 1,\n  \"quantita\": 1\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "simulation",
+							"item": [
+								{
+									"name": "Esegue una simulazione di scenario sul portafoglio",
+									"request": {
+										"auth": {
+											"type": "apikey",
+											"apikey": [
+												{
+													"key": "key",
+													"value": "JSESSIONID",
+													"type": "string"
+												},
+												{
+													"key": "value",
+													"value": "{{apiKey}}",
+													"type": "string"
+												},
+												{
+													"key": "in",
+													"value": "header",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"mesi\": 1,\n  \"note\": \"note_esempio\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/portfolios/:portfolioId/simulation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"portfolios",
+												":portfolioId",
+												"simulation"
+											],
+											"variable": [
+												{
+													"key": "portfolioId",
+													"value": "8420",
+													"description": "Identificativo del portafoglio da simulare."
+												}
+											]
+										},
+										"description": "Lancia una simulazione di tipo what-if sul portafoglio indicato per un orizzonte espresso in mesi. La risposta riporta gli indicatori sintetici (ESG medio/atteso, rendimento atteso, volatilità) e tre scenari (pessimistico, neutro, ottimistico) come moltiplicatori o rendimenti normalizzati.\n"
+									},
+									"response": [
+										{
+											"name": "Esito della simulazione.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"mesi\": 1,\n  \"note\": \"note_esempio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/simulation",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"simulation"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": 1,\n  \"portfolio\": {},\n  \"mesi\": 1,\n  \"esg\": 1,\n  \"rendimentoAtteso\": 1,\n  \"volatilita\": 1,\n  \"scenarioNeutro\": 1,\n  \"scenarioOttimistico\": 1,\n  \"scenarioPessimistico\": 1,\n  \"createdAt\": \"2024-01-01T00:00:00Z\"\n}"
+										},
+										{
+											"name": "Richiesta non valida (body mancante o campi non corretti).",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"mesi\": 1,\n  \"note\": \"note_esempio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/simulation",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"simulation"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"mesi\": 1,\n  \"note\": \"note_esempio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/simulation",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"simulation"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Utente autenticato senza i permessi necessari.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"mesi\": 1,\n  \"note\": \"note_esempio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/simulation",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"simulation"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Risorsa inesistente o non appartenente all’utente.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"mesi\": 1,\n  \"note\": \"note_esempio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/simulation",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"simulation"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Dati semanticamente scorretti secondo le regole di business.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"mesi\": 1,\n  \"note\": \"note_esempio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/simulation",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"simulation"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										},
+										{
+											"name": "Errore interno imprevisto.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "JSESSIONID",
+														"value": "<API Key>",
+														"description": "Added as a part of security scheme: apikey"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"mesi\": 1,\n  \"note\": \"note_esempio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/portfolios/:portfolioId/simulation",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"portfolios",
+														":portfolioId",
+														"simulation"
+													],
+													"variable": [
+														{
+															"key": "portfolioId"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Elenco dei portafogli dell’utente autenticato",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "JSESSIONID",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{apiKey}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/portfolios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"portfolios"
+							]
+						},
+						"description": "Restituisce i portafogli creati dall’utente associato al JSESSIONID. Utile per la dashboard personale e la selezione del portafoglio di lavoro.\n"
+					},
+					"response": [
+						{
+							"name": "Lista dei portafogli personali e totale.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"items\": [\n    {}\n  ],\n  \"total\": 1\n}"
+						},
+						{
+							"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						},
+						{
+							"name": "Errore interno imprevisto.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Crea un nuovo portafoglio",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "JSESSIONID",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{apiKey}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"nome_esempio\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/portfolios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"portfolios"
+							]
+						},
+						"description": "Registra un portafoglio a nome dell’utente in sessione specificandone il nome descrittivo.\n"
+					},
+					"response": [
+						{
+							"name": "Portafoglio creato.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"nome_esempio\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 1,\n  \"nome\": \"nome_esempio\",\n  \"owner\": {},\n  \"createdAt\": \"2024-01-01T00:00:00Z\"\n}"
+						},
+						{
+							"name": "Richiesta non valida (body mancante o campi non corretti).",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"nome_esempio\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						},
+						{
+							"name": "Autenticazione richiesta o token di sessione non valido/scaduto.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"nome_esempio\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						},
+						{
+							"name": "Conflitto con vincoli applicativi (es. ticker esistente, duplicazioni).",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"nome_esempio\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						},
+						{
+							"name": "Dati semanticamente scorretti secondo le regole di business.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"nome_esempio\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						},
+						{
+							"name": "Errore interno imprevisto.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "JSESSIONID",
+										"value": "<API Key>",
+										"description": "Added as a part of security scheme: apikey"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"nome_esempio\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portfolios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": \"code_esempio\",\n  \"message\": \"message_esempio\",\n  \"details\": [\n    \"details_esempio\"\n  ]\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "JSESSIONID",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{apiKey}}",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:8080/bgm-investments-esg-backend/v1"
+		}
+	]
+}

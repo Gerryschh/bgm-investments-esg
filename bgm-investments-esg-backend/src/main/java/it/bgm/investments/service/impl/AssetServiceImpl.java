@@ -4,12 +4,15 @@ import it.bgm.investments.api.model.*;
 import it.bgm.investments.domain.Asset;
 import it.bgm.investments.mapper.AssetMapper;
 import it.bgm.investments.repo.AssetRepository;
+import it.bgm.investments.repo.UserRepository;
+import it.bgm.investments.security.AuthFacade;
 import it.bgm.investments.service.AssetService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,18 +25,20 @@ import java.util.stream.Collectors;
  * <ul>
  *     <li>{@link #repo} — repository JPA per la persistenza e la ricerca degli asset.</li>
  *     <li>{@link #mapper} — mapper per convertire tra entità {@code Asset} e modelli API.</li>
+ *     <li>{@link #userRepo} — repository per il recupero delle informazioni sull’utente.</li>
+ *     <li>{@link #auth} — facciata di autenticazione per risolvere l’ID utente a partire dal token di sessione.</li>
  * </ul>
  *
  * <p><b>Metodi:</b></p>
  * <ul>
- *     <li>{@link #list(Boolean, String)} — restituisce la lista degli asset,
+ *     <li>{@link #list(Boolean, String, String)} — restituisce la lista degli asset,
  *         eventualmente filtrata per attivi e settore.</li>
- *     <li>{@link #get(Long)} — recupera i dettagli di uno specifico asset tramite ID.</li>
- *     <li>{@link #create(it.bgm.investments.api.model.CreateAssetBodyModel)} —
+ *     <li>{@link #get(Long, String)} — recupera i dettagli di uno specifico asset tramite ID.</li>
+ *     <li>{@link #create(it.bgm.investments.api.model.CreateAssetBodyModel, String)} —
  *         crea un nuovo asset a partire dal body fornito.</li>
- *     <li>{@link #update(Long, it.bgm.investments.api.model.UpdateAssetBodyModel)} —
+ *     <li>{@link #update(Long, it.bgm.investments.api.model.UpdateAssetBodyModel, String)} —
  *         aggiorna i dati dell’asset indicato.</li>
- *     <li>{@link #deactivate(Long)} — imposta un asset come non attivo.</li>
+ *     <li>{@link #deactivate(Long, String)} — imposta un asset come non attivo.</li>
  * </ul>
  */
 @Service
@@ -42,9 +47,15 @@ public class AssetServiceImpl implements AssetService {
 
     private final AssetRepository repo;
     private final AssetMapper mapper;
+    private final AuthFacade auth;
+    private final UserRepository userRepo;
 
     @Override
-    public AssetListResponseModel list(Boolean activeOnly, String settore) {
+    public AssetListResponseModel list(Boolean activeOnly, String settore, String jSessionId) {
+        Long userId = auth.userId(jSessionId);
+        userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User " + userId + " non trovato"));
+
         List<Asset> items = repo.search(activeOnly, settore);
         AssetListResponseModel res = new AssetListResponseModel();
         res.setItems(items.stream().map(mapper::toModel).collect(Collectors.toList()));
@@ -53,14 +64,22 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public AssetResponseModel get(Long id) {
+    public AssetResponseModel get(Long id, String jSessionId) {
+        Long userId = auth.userId(jSessionId);
+        userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User " + userId + " non trovato"));
+
         Asset a = repo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Asset " + id + " non trovato"));
         return mapper.toResponse(a);
     }
 
     @Override
-    public AssetResponseModel create(CreateAssetBodyModel b) {
+    public AssetResponseModel create(CreateAssetBodyModel b, String jSessionId) {
+        Long userId = auth.userId(jSessionId);
+        userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User " + userId + " non trovato"));
+
         AssetModel m = toModelFromCreate(b);
         Asset a = mapper.fromModel(m);
         Asset saved = repo.save(a);
@@ -68,7 +87,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public AssetResponseModel update(Long id, UpdateAssetBodyModel b) {
+    public AssetResponseModel update(Long id, UpdateAssetBodyModel b, String jSessionId) {
+        Long userId = auth.userId(jSessionId);
+        userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User " + userId + " non trovato"));
+
         Asset a = repo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Asset " + id + " non trovato"));
 
@@ -80,13 +103,18 @@ public class AssetServiceImpl implements AssetService {
         if (b.getVolatilitaMensile() != null) a.setVolatilitaMensile(BigDecimal.valueOf(b.getVolatilitaMensile()));
         if (b.getSource() != null) a.setSource(b.getSource());
         if (b.getActive() != null) a.setActive(b.getActive());
+        a.setUpdatedAt(Instant.now());
 
         Asset saved = repo.save(a);
         return mapper.toResponse(saved);
     }
 
     @Override
-    public void deactivate(Long id) {
+    public void deactivate(Long id, String jSessionId) {
+        Long userId = auth.userId(jSessionId);
+        userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User " + userId + " non trovato"));
+
         Asset a = repo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Asset " + id + " non trovato"));
         a.setActive(false);
