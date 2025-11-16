@@ -37,7 +37,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 ```bash
   bgm-investments-esg/
   ├─ bgm-investments-esg-backend/   # Spring Boot 3, REST API
-  ├─ bgm-investments-esg-doc/   # javadoc, er-schema, uml-schema, images
+  ├─ bgm-investments-esg-doc/   # javadoc, er-schema, uml-schema, images, postman-collection
   └─ bgm-investments-esg-frontend/  # React (Vite)
 ```
 
