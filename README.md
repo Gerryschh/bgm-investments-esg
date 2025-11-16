@@ -85,6 +85,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 - Admin: `admin@bgm.it` / `password` (ROLE: `ADMIN`)
 
 ## 🗺️ Roadmap
+- Sezione visualizzazione e confronto simulazioni
 - Sezione autogenerazione portafoglio da capitale inserito e vincoli iniziali (es. ESG > X)
 - SSO (Keycloak / OAuth2) al posto della sessione locale
 - Provider mercati/ESG esterni (refresh automatico catalogo titoli)
