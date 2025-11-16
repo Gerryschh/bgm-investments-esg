@@ -17,24 +17,24 @@ import it.bgm.investments.api.model.UpdateAssetBodyModel;
  *
  * <p><b>Metodi:</b></p>
  * <ul>
- *     <li>{@link #list(Boolean, String)} — restituisce la lista degli asset,
+ *     <li>{@link #list(Boolean, String, String)} — restituisce la lista degli asset,
  *         eventualmente filtrata per stato attivo e/o settore.</li>
- *     <li>{@link #get(Long)} — recupera i dettagli di un singolo asset tramite ID.</li>
- *     <li>{@link #create(it.bgm.investments.api.model.CreateAssetBodyModel)} —
+ *     <li>{@link #get(Long, String)} — recupera i dettagli di un singolo asset tramite ID.</li>
+ *     <li>{@link #create(it.bgm.investments.api.model.CreateAssetBodyModel, String)} —
  *         crea un nuovo asset a partire dai dati forniti nel body.</li>
- *     <li>{@link #update(Long, it.bgm.investments.api.model.UpdateAssetBodyModel)} —
+ *     <li>{@link #update(Long, it.bgm.investments.api.model.UpdateAssetBodyModel, String)} —
  *         aggiorna l’asset esistente identificato dall’ID.</li>
- *     <li>{@link #deactivate(Long)} — disattiva l’asset indicato, rendendolo non più utilizzabile.</li>
+ *     <li>{@link #deactivate(Long, String)} — disattiva l’asset indicato, rendendolo non più utilizzabile.</li>
  * </ul>
  */
 public interface AssetService {
-    AssetListResponseModel list(Boolean activeOnly, String settore);
+    AssetListResponseModel list(Boolean activeOnly, String settore, String jSessionId);
 
-    AssetResponseModel get(Long id);
+    AssetResponseModel get(Long id, String jSessionId);
 
-    AssetResponseModel create(CreateAssetBodyModel b);
+    AssetResponseModel create(CreateAssetBodyModel b, String jSessionId);
 
-    AssetResponseModel update(Long id, UpdateAssetBodyModel b);
+    AssetResponseModel update(Long id, UpdateAssetBodyModel b, String jSessionId);
 
-    void deactivate(Long id);
+    void deactivate(Long id, String jSessionId);
 }

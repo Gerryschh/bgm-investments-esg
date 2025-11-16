@@ -66,7 +66,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 ### Backend
 ```bash
   cd bgm-investments-esg/bgm-investments-esg-backend
-  mvn spring-boot:run
+  mvn clean install spring-boot:run
   # API base: http://localhost:8080/bgm-investments-esg-backend/
   # Swagger UI: http://localhost:8080/swagger-ui/index.html
   # H2 console: http://localhost:8080/h2-console

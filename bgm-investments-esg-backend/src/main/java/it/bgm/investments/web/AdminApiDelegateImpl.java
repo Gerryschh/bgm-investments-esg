@@ -5,6 +5,7 @@ import it.bgm.investments.api.model.AssetResponseModel;
 import it.bgm.investments.api.model.CreateAssetBodyModel;
 import it.bgm.investments.api.model.UpdateAssetBodyModel;
 import it.bgm.investments.service.AssetService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  *
  * <p><b>Campi:</b></p>
  * <ul>
+ *     <li>{@link #request} — richiesta HTTP corrente, utilizzata per ricavare il token di sessione.</li>
  *     <li>{@link #assetService} — servizio applicativo responsabile della
  *         gestione degli asset (creazione, aggiornamento, disattivazione).</li>
  * </ul>
@@ -42,20 +44,21 @@ import org.springframework.stereotype.Service;
 public class AdminApiDelegateImpl extends BaseApiDelegate implements AdminApiDelegate {
 
     private final AssetService assetService;
+    private final HttpServletRequest request;
 
     @Override
     public ResponseEntity<AssetResponseModel> createAsset(@Valid CreateAssetBodyModel body) {
-        return ResponseEntity.status(201).body(assetService.create(body));
+        return ResponseEntity.status(201).body(assetService.create(body, getJSessionId(request)));
     }
 
     @Override
     public ResponseEntity<AssetResponseModel> updateAsset(@Valid UpdateAssetBodyModel body, Long assetId) {
-        return ResponseEntity.ok(assetService.update(assetId, body));
+        return ResponseEntity.ok(assetService.update(assetId, body, getJSessionId(request)));
     }
 
     @Override
     public ResponseEntity<Void> deactivateAsset(Long assetId) {
-        assetService.deactivate(assetId);
+        assetService.deactivate(assetId, getJSessionId(request));
         return ResponseEntity.noContent().build();
     }
 }

@@ -4,6 +4,7 @@ import it.bgm.investments.api.AssetsApiDelegate;
 import it.bgm.investments.api.model.AssetListResponseModel;
 import it.bgm.investments.api.model.AssetResponseModel;
 import it.bgm.investments.service.AssetService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
  *
  * <p><b>Campi:</b></p>
  * <ul>
+ *     <li>{@link #request} — richiesta HTTP corrente, utilizzata per ricavare il token di sessione.</li>
  *     <li>{@link #assetService} — servizio applicativo responsabile della
  *         consultazione e gestione degli asset.</li>
  * </ul>
@@ -24,11 +26,11 @@ import org.springframework.stereotype.Service;
  * <ul>
  *     <li>{@link #getAssets(Boolean, String)} —
  *         restituisce la lista degli asset filtrata opzionalmente per
- *         stato attivo e settore, delegando a {@link AssetService#list(Boolean, String)}.</li>
+ *         stato attivo e settore, delegando a {@link AssetService#list(Boolean, String, String)}.</li>
  *
  *     <li>{@link #getAssetById(Long)} —
  *         recupera il dettaglio di un asset tramite il suo ID,
- *         delegando a {@link AssetService#get(Long)}.</li>
+ *         delegando a {@link AssetService#get(Long, String)}.</li>
  * </ul>
  */
 @Service
@@ -36,14 +38,15 @@ import org.springframework.stereotype.Service;
 public class AssetsApiDelegateImpl extends BaseApiDelegate implements AssetsApiDelegate {
 
     private final AssetService assetService;
+    private final HttpServletRequest request;
 
     @Override
     public ResponseEntity<AssetListResponseModel> getAssets(Boolean activeOnly, String settore) {
-        return ResponseEntity.ok(assetService.list(activeOnly, settore));
+        return ResponseEntity.ok(assetService.list(activeOnly, settore, getJSessionId(request)));
     }
 
     @Override
     public ResponseEntity<AssetResponseModel> getAssetById(Long assetId) {
-        return ResponseEntity.ok(assetService.get(assetId));
+        return ResponseEntity.ok(assetService.get(assetId, getJSessionId(request)));
     }
 }
