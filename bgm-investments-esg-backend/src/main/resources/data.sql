@@ -16,7 +16,7 @@ INSERT INTO titoli (ticker, nome, settore, prezzo, esg, rendimento_mensile, vola
 VALUES ('BGM01', 'Green Bond Italia 2028', 'Bond', 102.10, 82, 0.004, 0.012, 'MANUAL', CURRENT_TIMESTAMP, TRUE),
        ('SOLR', 'SolarTech SpA', 'Energy', 19.80, 88, 0.018, 0.060, 'MANUAL', CURRENT_TIMESTAMP, TRUE),
        ('WATR', 'AcquaPure', 'Utilities', 12.30, 75, 0.010, 0.030, 'MANUAL', CURRENT_TIMESTAMP, TRUE),
-       ('BANK', 'BGM Bank', 'Financial', 7.40, 62, 0.008, 0.045, 'MANUAL', CURRENT_TIMESTAMP, TRUE);
+       ('BANK', 'BGM Bank', 'Financial', 7.40, 62, 0.008, 0.045, 'MANUAL', CURRENT_TIMESTAMP, TRUE),
        ('WIND',  'WindPower Europe','Energy', 23.50, 90, 0.020000, 0.065000, 'MANUAL', CURRENT_TIMESTAMP, TRUE),
        ('EVIT',  'EV Italia','Automotive', 34.20, 86, 0.022000, 0.080000, 'MANUAL', CURRENT_TIMESTAMP, TRUE),
        ('REIT1', 'Green Real Estate REIT', 'RealEstate', 18.75, 78, 0.009000, 0.028000, 'MANUAL', CURRENT_TIMESTAMP, TRUE),
