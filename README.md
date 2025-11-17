@@ -48,7 +48,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 - MapStruct (Entity ⇄ Model)
 - springdoc-openapi (Swagger UI)
 - BCrypt (password hash)
-- Mockito • JUnit (testing)
+- Mockito • JUnit • SpringBootTest (testing)
 ### Frontend
 - React 18 • Vite
 - React Router

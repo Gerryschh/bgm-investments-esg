@@ -1,0 +1,31 @@
+server:
+  port: 0     # non serve un vero server nei test, 0 = porta random
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:esgdb-test;DB_CLOSE_DELAY=-1;MODE=LEGACY
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none          # usiamo schema.sql
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always            # esegue schema.sql e data.sql anche nei test
+
+  h2:
+    console:
+      enabled: false          # non necessaria nei test
+
+bgm:
+  cors:
+    allowed-origin: http://localhost:5173
+
+security:
+  session:
+    ttl-seconds: 3600
+    touch-on-access: true
