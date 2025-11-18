@@ -37,7 +37,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 ```bash
   bgm-investments-esg/
   ├─ bgm-investments-esg-backend/   # Spring Boot 3, REST API
-  ├─ bgm-investments-esg-doc/   # javadoc, er-schema, uml-schema, images, postman-collection
+  ├─ bgm-investments-esg-doc/   # javadoc, er-schema, uml-schema, images, postman-collection, backend-run-config
   └─ bgm-investments-esg-frontend/  # React (Vite)
 ```
 
@@ -63,18 +63,23 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 ### Prerequisiti
 - Java 17, Maven
 - Node.js 18+ / npm
+
+Aprire shell/cmd nel path `/bgm-investments-esg` ed eseguire i seguenti comandi
 ### Backend
 ```bash
-  cd bgm-investments-esg/bgm-investments-esg-backend
+  cd ./bgm-investments-esg-backend
   mvn clean install spring-boot:run
   # API base: http://localhost:8080/bgm-investments-esg-backend/
   # Swagger UI: http://localhost:8080/swagger-ui/index.html
   # H2 console: http://localhost:8080/h2-console
   # JDBC URL: jdbc:h2:file:./target/esgdb   user: sa  pass: (vuota)
 ```
+Alternativa run backend da IDE
+![Alt text](bgm-investments-esg-doc/backend-run-config/backend-run-ide-config.PNG)
+
 ### Frontend
 ```bash
-  cd ./bgm-investments-esg-frontend
+  cd ../bgm-investments-esg-frontend
   npm i
   npm run dev
   # FE base: http://localhost:5173/bgm-investments-esg-frontend/
