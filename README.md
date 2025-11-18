@@ -23,7 +23,7 @@ Tutti i dati presenti nel progetto sono fittizi e utilizzati a scopo didattico.
 ![Alt text](bgm-investments-esg-doc/images/Area_Admin_Catalogo_Titoli_2.PNG)
 
 ## ✨ Funzionalità chiave
-- Autenticazione “light” con sessione HTTP (cookie JSESSIONID), login/logout e “utente corrente”
+- Autenticazione “light” con sessione HTTP ("apiKey" JSESSIONID), login/logout e “utente corrente”
 - Catalogo titoli/asset con punteggio ESG e parametri mensili (rendimento, volatilità)
 - Portafogli & posizioni (create, list, add/remove)
 - Simulazione multi-scenario (Simulazione Monte Carlo) su orizzonte in mesi, con ESG aggregato
